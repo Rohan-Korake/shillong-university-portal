@@ -1,16 +1,21 @@
-import React from "react";
+import { useState } from "react";
+import LandingPage from "./pages/LandingPage";
+import LoginPage from "./pages/LoginPage";
+import DashboardPage from "./pages/DashboardPage";
 
 export default function App() {
+  const [currentView, setCurrentView] = useState("landing"); // 'landing', 'login', 'dashboard'
+
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-black text-white font-sans">
-      <div className="text-center space-y-3">
-        <h1 className="text-3xl sm:text-4xl font-bold tracking-tight">
-          Hello Rohan, let's get started!
-        </h1>
-        <p className="text-sm text-slate-400">
-          All setup is ready. Your environment is fully configured.
-        </p>
-      </div>
+    <div className="min-h-screen bg-white text-slate-900 font-sans">
+      {/* Render active page component */}
+      {currentView === "landing" && <LandingPage onNavigate={setCurrentView} />}
+      {currentView === "login" && (
+        <LoginPage onLoginSuccess={() => setCurrentView("dashboard")} />
+      )}
+      {currentView === "dashboard" && (
+        <DashboardPage onLogout={() => setCurrentView("landing")} />
+      )}
     </div>
   );
 }
